@@ -1,0 +1,17 @@
+language: python
+- '2.6'
+- '2.7'
+- '3.3'
+- '3.4'
+env:
+  - DJANGO='django>=1.6.0,<1.7.0' REVERSION='django-reversion>=1.8.4,<1.9.0' DJANGO_REST_FRAMEWORK='djangorestframework>=2.4.0,<2.5.0'
+  - DJANGO='django>=1.7.0,<1.8.0' REVERSION='django-reversion>=1.8.4,<1.9.0' DJANGO_REST_FRAMEWORK='djangorestframework>=2.4.0,<2.5.0'
+matrix:
+  exclude:
+    - python: 2.6
+      env: - DJANGO='django>=1.7.0,<1.8.0' REVERSION='django-reversion>=1.8.4,<1.9.0' DJANGO_REST_FRAMEWORK='djangorestframework>=2.4.0,<2.5.0'
+
+install:
+  - travis_retry pip install $DJANGO $REVERSION $DJANGO_REST_FRAMEWORK
+
+test: PYTHONPATH=.:$PYTHONPATH django-admin test --settings tests.support.settings
